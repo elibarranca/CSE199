@@ -23,7 +23,15 @@
             max-width: 500px;
             padding: 40px;
         }
-
+        .img{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            transform: rotate(-90deg);
+        }
         h1 {
             color: #667eea;
             text-align: center;
