@@ -3,104 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple budget planner to help you manage your finances effectively.">
+    <meta author="Elisa Barranca">
     <title>Budget Buddy</title>
     <link rel="stylesheet" href="budget.css">
-    <script defer src="budget.js"></script>
+    <script src="budget.js" defer></script>
 </head>
 <body>
+    <img src="budget_buddy_logo_w.png" alt="Budget Buddy Logo" class="logo">
+    <h1>Budget Planner</h1>
+    <section>
+        <h2>1. Calculate Your Net Income</h2>
+        <label for="income">Monthly Income ($):</label>
+        <input type="number" id="income" placeholder="Enter your total monthly income">
 
-    <!-- Login Screen -->
-    <div id="loginScreen" class="container">
-        <img src="https://elibarranca.github.io/CSE199/images/budget_buddy_logo_w.jpg" alt="Budget Buddy logo" class="logo">
-        <p class="subtitle">Track your money flow</p>
-        
-        <form id="loginForm">
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="loginEmail" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="loginPassword" placeholder="Enter your password" required>
-            </div>
-            <button type="submit">Login</button>
-        </form>
-        <div class="toggle-link">
-            Don't have an account? <a href="#" id="showRegister">Sign up</a>
-        </div>
-    </div>
-    <!-- Register Screen -->
-    <div id="registerScreen" class="container hidden">
-        <h1>💰 Budget Tracker</h1>
-        <p class="subtitle">Create your account</p> 
-        <form id="registerForm">
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="registerEmail" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="registerPassword" placeholder="Create a password" required>
-            </div>
-            <div class="form-group">
-                <label>Confirm Password</label>
-                <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
-            </div>
-            <button type="submit">Create Account</button>
-        </form>
-        
-        <div class="toggle-link">
-            Already have an account? <a href="#" id="showLogin">Login</a>
-        </div>
-    </div>
-    <!---->
-    <!-- Dashboard Screen -->
-    <div id="dashboardScreen" class="container hidden">
-        <div class="dashboard-header">
-            <h1>💰 Budget Tracker</h1>
-            <p class="welcome-text">Welcome back, <span id="userEmail"></span></p>
-        </div>
+        <label for="expenses">Monthly Expenses ($):</label>
+        <input type="number" id="expenses" placeholder="Enter your total monthly expenses">
 
-        <div class="balance-card">
-            <div class="balance-label">Current Balance</div>
-            <div class="balance-amount" id="totalBalance">$0.00</div>
-        </div>
+        <button onclick="calculateNetIncome()">Calculate Net Income</button>
+        <div id="netIncomeResult"></div>
+    </section>
 
-        <div class="summary-cards">
-            <div class="summary-card income-card">
-                <h3>Total Income</h3>
-                <p id="totalIncome">$0.00</p>
-            </div>
-            <div class="summary-card expense-card">
-                <h3>Total Expenses</h3>
-                <p id="totalExpenses">$0.00</p>
-            </div>
-        </div>
+    <section>
+        <h2>2. Track Your Spending</h2>
+        <label for="spending">Enter recent spending ($):</label>
+        <input type="number" id="spending" placeholder="Example: 50 for groceries">
+        <button onclick="trackSpending()">Add Spending</button>
+        <div id="spendingList"></div>
+    </section>
 
-        <form id="transactionForm">
-            <div class="form-group">
-                <label>Description</label>
-                <input type="text" id="description" placeholder="e.g., Salary, Groceries" required>
-            </div>
-            <div class="form-group">
-                <label>Amount</label>
-                <input type="number" id="amount" placeholder="0.00" step="0.01" required>
-            </div>
-            <div class="form-group">
-                <label>Type</label>
-                <select id="type" required>
-                    <option value="income">Income</option>
-                    <option value="expense">Expense</option>
-                </select>
-            </div>
-            <button type="submit">Add Transaction</button>
-        </form>
+    <section>
+        <h2>3. Set Realistic Goals</h2>
+        <label for="goal">Enter your saving goal ($):</label>
+        <input type="number" id="goal" placeholder="Example: 300">
+        <button onclick="setGoal()">Set Goal</button>
+        <div id="goalResult"></div>
+    </section>
 
-        <h2 style="margin: 30px 0 15px 0; color: #333;">Recent Transactions</h2>
-        <div id="transactionsList">
-            <div class="no-transactions">No transactions yet. Add your first transaction above!</div>
-        </div>
-        <button class="logout-btn" id="logoutBtn">Logout</button>
-    </div>
+    <section>
+        <h2>4. Make a Budget Plan</h2>
+        <button onclick="makePlan()">Create Budget Plan</button>
+        <div id="planResult"></div>
+    </section>
+
+    <section class="methods">
+        <h2>5. Pick a Budgeting Method</h2>
+        <select id="method">
+            <option value="">-- Choose a method --</option>
+            <option value="50/30/20">50/30/20 Rule</option>
+            <option value="Envelope">Envelope Method</option>
+            <option value="Zero-Based">Zero-Based Budget</option>
+        </select>
+        <button onclick="showMethod()">Show Method Info</button>
+        <div id="methodInfo"></div>
+    </section>
+
+    <section>
+        <h2>6. Adjust or Update Your Budget</h2>
+        <button onclick="updateBudget()">Update Budget</button>
+        <button onclick="resetBudget()">Reset All</button>
+        <div id="result"></div>
+    </section>
+
+    <!-- ✅ New Budget Report section -->
+    <section>
+        <h2>📊 Your Budget Report</h2>
+        <div id="report">No data yet. Start by entering your income and expenses!</div>
+    </section>
 </body>
 </html>

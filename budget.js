@@ -1,158 +1,94 @@
 
-    <script>
-        // Data storage object
-        let users = {};
-        let currentUser = null;
+let netIncome = 0;
+let totalSpending = 0;
+let goal = 0;
+let methodChosen = "";
 
-        // Get elements
-        const loginScreen = document.getElementById('loginScreen');
-        const registerScreen = document.getElementById('registerScreen');
-        const dashboardScreen = document.getElementById('dashboardScreen');
+function updateReport() {
+    const report = `
+📅 Budget Summary
+--------------------
+Net Income: $${netIncome.toFixed(2)}
+Total Spending: $${totalSpending.toFixed(2)}
+Goal: $${goal.toFixed(2)}
+Method: ${methodChosen || "Not chosen yet"}
+`;
+    document.getElementById("report").innerText = report;
+}
 
-        // Show/hide screens
-        document.getElementById('showRegister').addEventListener('click', function(e) {
-            e.preventDefault();
-            loginScreen.classList.add('hidden');
-            registerScreen.classList.remove('hidden');
-        });
+function calculateNetIncome() {
+    const income = parseFloat(document.getElementById("income").value) || 0;
+    const expenses = parseFloat(document.getElementById("expenses").value) || 0;
+    netIncome = income - expenses;
 
-        document.getElementById('showLogin').addEventListener('click', function(e) {
-            e.preventDefault();
-            registerScreen.classList.add('hidden');
-            loginScreen.classList.remove('hidden');
-        });
+    if (income === 0 && expenses === 0) {
+        document.getElementById("netIncomeResult").innerText = "Please enter income and expenses.";
+    } else {
+        document.getElementById("netIncomeResult").innerText = `Your net income is $${netIncome.toFixed(2)}`;
+    }
+    updateReport();
+}
 
-        // Register form
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
+function trackSpending() {
+    const spending = parseFloat(document.getElementById("spending").value) || 0;
+    totalSpending += spending;
+    document.getElementById("spendingList").innerText = `Total spending so far: $${totalSpending.toFixed(2)}`;
+    updateReport();
+}
 
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
+function setGoal() {
+    goal = parseFloat(document.getElementById("goal").value) || 0;
+    document.getElementById("goalResult").innerText = `Your savings goal is $${goal.toFixed(2)}`;
+    updateReport();
+}
 
-            if (users[email]) {
-                alert('This email is already registered!');
-                return;
-            }
+function makePlan() {
+    if (netIncome <= 0) {
+        document.getElementById("planResult").innerText = "Please calculate your net income first.";
+        return;
+    }
+    const message = `Your budget plan:\nSave $${goal.toFixed(2)} from your net income of $${netIncome.toFixed(2)}.`;
+    document.getElementById("planResult").innerText = message;
+    updateReport();
+}
 
-            users[email] = {
-                password: password,
-                transactions: []
-            };
+function showMethod() {
+    const method = document.getElementById("method").value;
+    let info = "";
+    if (method === "50/30/20") {
+        info = "The 50/30/20 Rule: 50% needs, 30% wants, 20% savings.";
+    } else if (method === "Envelope") {
+        info = "Envelope Method: Assign cash to categories (e.g., groceries, gas) and stop spending when it’s gone.";
+    } else if (method === "Zero-Based") {
+        info = "Zero-Based Budget: Every dollar is assigned a purpose — income minus expenses equals zero.";
+    } else {
+        info = "Please choose a budgeting method.";
+    }
+    document.getElementById("methodInfo").innerText = info;
+    methodChosen = method;
+    updateReport();
+}
 
-            alert('Account created successfully! Please login.');
-            registerScreen.classList.add('hidden');
-            loginScreen.classList.remove('hidden');
-            
-            document.getElementById('registerForm').reset();
-        });
+function updateBudget() {
+    const result = `Updated Budget Summary:
+Net Income: $${netIncome.toFixed(2)}
+Total Spending: $${totalSpending.toFixed(2)}
+Goal: $${goal.toFixed(2)}`;
+    document.getElementById("result").innerText = result;
+    updateReport();
+}
 
-        // Login form
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            if (!users[email]) {
-                alert('No account found with this email!');
-                return;
-            }
-
-            if (users[email].password !== password) {
-                alert('Incorrect password!');
-                return;
-            }
-
-            currentUser = email;
-            document.getElementById('userEmail').textContent = email;
-            
-            loginScreen.classList.add('hidden');
-            dashboardScreen.classList.remove('hidden');
-            
-            updateDashboard();
-            document.getElementById('loginForm').reset();
-        });
-
-        // Add transaction
-        document.getElementById('transactionForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const description = document.getElementById('description').value;
-            const amount = parseFloat(document.getElementById('amount').value);
-            const type = document.getElementById('type').value;
-
-            const transaction = {
-                description: description,
-                amount: amount,
-                type: type,
-                date: new Date().toLocaleDateString()
-            };
-
-            users[currentUser].transactions.push(transaction);
-            
-            updateDashboard();
-            document.getElementById('transactionForm').reset();
-        });
-
-        // Update dashboard
-        function updateDashboard() {
-            const transactions = users[currentUser].transactions;
-            
-            let totalIncome = 0;
-            let totalExpenses = 0;
-
-            transactions.forEach(function(transaction) {
-                if (transaction.type === 'income') {
-                    totalIncome += transaction.amount;
-                } else {
-                    totalExpenses += transaction.amount;
-                }
-            });
-
-            const balance = totalIncome - totalExpenses;
-
-            document.getElementById('totalBalance').textContent = '$' + balance.toFixed(2);
-            document.getElementById('totalIncome').textContent = '$' + totalIncome.toFixed(2);
-            document.getElementById('totalExpenses').textContent = '$' + totalExpenses.toFixed(2);
-
-            const transactionsList = document.getElementById('transactionsList');
-            
-            if (transactions.length === 0) {
-                transactionsList.innerHTML = '<div class="no-transactions">No transactions yet. Add your first transaction above!</div>';
-                return;
-            }
-
-            transactionsList.innerHTML = '';
-            
-            transactions.slice().reverse().forEach(function(transaction) {
-                const item = document.createElement('div');
-                item.className = 'transaction-item';
-                
-                const amountSign = transaction.type === 'income' ? '+' : '-';
-                const amountClass = transaction.type === 'income' ? 'income' : 'expense';
-                
-                item.innerHTML = `
-                    <div class="transaction-info">
-                        <div><strong>${transaction.description}</strong></div>
-                        <div class="transaction-category">${transaction.date}</div>
-                    </div>
-                    <div class="transaction-amount ${amountClass}">${amountSign}$${transaction.amount.toFixed(2)}</div>
-                `;
-                
-                transactionsList.appendChild(item);
-            });
-        }
-
-        // Logout
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            currentUser = null;
-            dashboardScreen.classList.add('hidden');
-            loginScreen.classList.remove('hidden');
-        });
-    </script>
+function resetBudget() {
+    netIncome = 0;
+    totalSpending = 0;
+    goal = 0;
+    methodChosen = "";
+    document.querySelectorAll("input").forEach(input => input.value = "");
+    document.getElementById("netIncomeResult").innerText = "";
+    document.getElementById("spendingList").innerText = "";
+    document.getElementById("goalResult").innerText = "";
+    document.getElementById("planResult").innerText = "";
+    document.getElementById("methodInfo").innerText = "";
+    document.getElementById("result").innerText = "";
+    document.getElementById("report").innerText = "No data yet. Start by entering your income and expenses!";
+}
