@@ -87,3 +87,25 @@ input[type="number"] {
   background-color: #fff9e6;
   border-left: 5px solid #1e396e;
 }
+@media screen and (min-width: 700px) {
+  nav {
+    text-align: right;
+  }
+  nav a {
+    display: inline;
+  }
+  .menu-btn {
+    display: none;
+  }
+  main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  main {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
