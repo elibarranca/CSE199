@@ -36,6 +36,13 @@ function trackSpending() {
     updateReport();
 }
 
+function trackSaving() {
+    const saving = parseFloat(document.getElementById("saving").value) || 0;
+    totalSaving += saving;
+    document.getElementById("savingList").innerText = `Total saving so far: $${totalSaving.toFixed(2)}`;
+    updateReport();
+}
+
 function setGoal() {
     goal = parseFloat(document.getElementById("goal").value) || 0;
     document.getElementById("goalResult").innerText = `Your savings goal is $${goal.toFixed(2)}`;

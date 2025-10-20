@@ -35,8 +35,16 @@
         <div id="spendingList"></div>
     </section>
 
+        <section>
+        <h2>3. Track Your Savings</h2>
+        <label for="saving">Enter recent saving ($):</label>
+        <input type="number" id="saving" placeholder="Example: 10 for new phone">
+        <button onclick="trackSaving()">Add Savings</button>
+        <div id="savingList"></div>
+    </section>
+
     <section>
-        <h2>3. Set Realistic Goals</h2>
+        <h2>4. Set Realistic Goals</h2>
         <label for="goal">Enter your saving goal ($):</label>
         <input type="number" id="goal" placeholder="Example: 300">
         <button onclick="setGoal()">Set Goal</button>
@@ -44,13 +52,13 @@
     </section>
 
     <section>
-        <h2>4. Make a Budget Plan</h2>
+        <h2>5. Make a Budget Plan</h2>
         <button onclick="makePlan()">Create Budget Plan</button>
         <div id="planResult"></div>
     </section>
 
     <section class="methods">
-        <h2>5. Pick a Budgeting Method</h2>
+        <h2>6. Pick a Budgeting Method</h2>
         <select id="method">
             <option value="">-- Choose a method --</option>
             <option value="50/30/20">50/30/20 Rule</option>
@@ -62,7 +70,7 @@
     </section>
 
     <section>
-        <h2>6. Adjust or Update Your Budget</h2>
+        <h2>7. Adjust or Update Your Budget</h2>
         <button onclick="updateBudget()">Update Budget</button>
         <button onclick="resetBudget()">Reset All</button>
         <div id="result"></div>
