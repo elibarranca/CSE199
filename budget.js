@@ -1,6 +1,7 @@
 
 let netIncome = 0;
 let totalSpending = 0;
+let totalSavings = 0;
 let goal = 0;
 let methodChosen = "";
 
@@ -10,6 +11,7 @@ function updateReport() {
 --------------------
 Net Income: $${netIncome.toFixed(2)}
 Total Spending: $${totalSpending.toFixed(2)}
+Total Savings: $${totalSavings.toFixed(2)}
 Goal: $${goal.toFixed(2)}
 Method: ${methodChosen || "Not chosen yet"}
 `;
@@ -36,10 +38,10 @@ function trackSpending() {
     updateReport();
 }
 
-function trackSaving() {
-    const saving = parseFloat(document.getElementById("saving").value) || 0;
-    totalSaving += saving;
-    document.getElementById("savingList").innerText = `Total saving so far: $${totalSaving.toFixed(2)}`;
+function trackSavings() {
+    const savings = parseFloat(document.getElementById("savings").value) || 0;
+    totalSavings += savings;
+    document.getElementById("savingsList").innerText = `Total savings so far: $${totalSavings.toFixed(2)}`;
     updateReport();
 }
 
@@ -80,6 +82,7 @@ function updateBudget() {
     const result = `Updated Budget Summary:
 Net Income: $${netIncome.toFixed(2)}
 Total Spending: $${totalSpending.toFixed(2)}
+Total Savings: $${totalSavings.toFixed(2)}
 Goal: $${goal.toFixed(2)}`;
     document.getElementById("result").innerText = result;
     updateReport();
@@ -88,11 +91,13 @@ Goal: $${goal.toFixed(2)}`;
 function resetBudget() {
     netIncome = 0;
     totalSpending = 0;
+    totalSavings = 0;
     goal = 0;
     methodChosen = "";
     document.querySelectorAll("input").forEach(input => input.value = "");
     document.getElementById("netIncomeResult").innerText = "";
     document.getElementById("spendingList").innerText = "";
+    document.getElementById("savingsList").innerText = "";
     document.getElementById("goalResult").innerText = "";
     document.getElementById("planResult").innerText = "";
     document.getElementById("methodInfo").innerText = "";
