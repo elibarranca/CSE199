@@ -19,9 +19,81 @@
         <h2>1. Calculate Your Net Income</h2>
         <label for="income">Monthly Income ($):</label>
         <input type="number" id="income" placeholder="Enter your total monthly income">
+            <!-- ✅ New Budget Report section -->
+            <!-- Categories (10 rows) -->
+        <section>
+          <label for="expenses">Monthly Expenses ($):</label>
+          <p>Fill a name + planned + actual for each category.</p>
 
-        <label for="expenses">Monthly Expenses ($):</label>
-        <input type="number" id="expenses" placeholder="Enter your total monthly expenses">
+          <div class="categories-grid">
+            <!-- we'll generate 10 rows; IDs follow pattern: catName0..9, planned0..9, actual0..9 -->
+            <!-- You can paste or generate faster -- below are 10 rows -->
+            <div class="cat-row">
+              <input type="text" id="catName0" placeholder="Category name">
+              <input type="number" id="planned0" placeholder="Planned $">
+              <input type="number" id="actual0" placeholder="Actual $">
+            </div>
+            <div class="cat-row">
+              <input type="text" id="catName1" placeholder="Category name">
+              <input type="number" id="planned1" placeholder="Planned $">
+              <input type="number" id="actual1" placeholder="Actual $">
+            </div>
+            <div class="cat-row">
+              <input type="text" id="catName2" placeholder="Category name">
+              <input type="number" id="planned2" placeholder="Planned $">
+              <input type="number" id="actual2" placeholder="Actual $">
+            </div>
+            <div class="cat-row">
+              <input type="text" id="catName3" placeholder="Category name">
+              <input type="number" id="planned3" placeholder="Planned $">
+              <input type="number" id="actual3" placeholder="Actual $">
+            </div>
+            <div class="cat-row">
+              <input type="text" id="catName4" placeholder="Category name">
+              <input type="number" id="planned4" placeholder="Planned $">
+              <input type="number" id="actual4" placeholder="Actual $">
+            </div>
+            <div class="cat-row">
+              <input type="text" id="catName5" placeholder="Category name">
+              <input type="number" id="planned5" placeholder="Planned $">
+              <input type="number" id="actual5" placeholder="Actual $">
+            </div>
+            <div class="cat-row">
+              <input type="text" id="catName6" placeholder="Category name">
+              <input type="number" id="planned6" placeholder="Planned $">
+              <input type="number" id="actual6" placeholder="Actual $">
+            </div>
+            <div class="cat-row">
+              <input type="text" id="catName7" placeholder="Category name">
+              <input type="number" id="planned7" placeholder="Planned $">
+              <input type="number" id="actual7" placeholder="Actual $">
+            </div>
+            <div class="cat-row">
+              <input type="text" id="catName8" placeholder="Category name">
+              <input type="number" id="planned8" placeholder="Planned $">
+              <input type="number" id="actual8" placeholder="Actual $">
+            </div>
+            <div class="cat-row">
+              <input type="text" id="catName9" placeholder="Category name">
+              <input type="number" id="planned9" placeholder="Planned $">
+              <input type="number" id="actual9" placeholder="Actual $">
+            </div>
+          </div>
+
+          <button type="button" onclick="drawCategoriesChart()">Draw Categories Chart</button>
+          <div class="chart-legend">
+            <span class="legend-box planned"></span> Planned
+            <span class="legend-box actual" style="margin-left: 12px;"></span> Actual
+          </div>
+        </section>
+
+        <!-- Canvas is placed after your report in the HTML; keep it at the bottom -->
+        <!-- If you already have a report div, place the canvas right after it -->
+        <!-- Example: after the #report section -->
+        <section>
+          <h2>Category Comparison Chart</h2>
+          <canvas id="chartCanvas"></canvas>
+        </section>
 
         <button onclick="calculateNetIncome()">Calculate Net Income</button>
         <div id="netIncomeResult"></div>
@@ -76,7 +148,7 @@
         <div id="result"></div>
     </section>
 
-    <!-- ✅ New Budget Report section -->
+
     <section>
         <h2>📊 Your Budget Report</h2>
         <div id="report">No data yet. Start by entering your income and expenses!</div>
