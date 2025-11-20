@@ -4,153 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A simple budget planner to help you manage your finances effectively.">
-    <meta author="Elisa Barranca">
+    <meta name="author" author="Elisa Barranca">
     <title>Budget Buddy</title>
     <link rel="stylesheet" href="budget.css">
     <script src="budget.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+  </head>
 </head>
 <body>
     <img src="https://elibarranca.github.io/CSE199/images/budget_buddy_logo_w.jpg" alt="Budget Buddy Logo" class="logo">
-    <h1>Your simple Budget Planner</h1>
+    <h1>Your Simple Budget Planner</h1>
+
     <section>
-        <h2>1. Calculate Your Net Income</h2>
-        <label for="income">Monthly Income ($):</label>
-        <input type="number" id="income" placeholder="Enter your total monthly income">
-            <!-- ✅ New Budget Report section -->
-            <!-- Categories (10 rows) -->
-        <section>
-          <label for="expenses">Monthly Expenses ($):</label>
-          <p>Fill a name + planned + actual for each category.</p>
+        <h2>1. Income Sources</h2>
+        <p class="info-text">Enter your different sources of income with planned and actual amounts.</p>
 
-          <div class="categories-grid">
-            <!-- we'll generate 10 rows; IDs follow pattern: catName0..9, planned0..9, actual0..9 -->
-            <!-- You can paste or generate faster -- below are 10 rows -->
-            <div class="cat-row">
-              <input type="text" id="catName0" placeholder="Category name">
-              <input type="number" id="planned0" placeholder="Planned $">
-              <input type="number" id="actual0" placeholder="Actual $">
-            </div>
-            <div class="cat-row">
-              <input type="text" id="catName1" placeholder="Category name">
-              <input type="number" id="planned1" placeholder="Planned $">
-              <input type="number" id="actual1" placeholder="Actual $">
-            </div>
-            <div class="cat-row">
-              <input type="text" id="catName2" placeholder="Category name">
-              <input type="number" id="planned2" placeholder="Planned $">
-              <input type="number" id="actual2" placeholder="Actual $">
-            </div>
-            <div class="cat-row">
-              <input type="text" id="catName3" placeholder="Category name">
-              <input type="number" id="planned3" placeholder="Planned $">
-              <input type="number" id="actual3" placeholder="Actual $">
-            </div>
-            <div class="cat-row">
-              <input type="text" id="catName4" placeholder="Category name">
-              <input type="number" id="planned4" placeholder="Planned $">
-              <input type="number" id="actual4" placeholder="Actual $">
-            </div>
-            <div class="cat-row">
-              <input type="text" id="catName5" placeholder="Category name">
-              <input type="number" id="planned5" placeholder="Planned $">
-              <input type="number" id="actual5" placeholder="Actual $">
-            </div>
-            <div class="cat-row">
-              <input type="text" id="catName6" placeholder="Category name">
-              <input type="number" id="planned6" placeholder="Planned $">
-              <input type="number" id="actual6" placeholder="Actual $">
-            </div>
-            <div class="cat-row">
-              <input type="text" id="catName7" placeholder="Category name">
-              <input type="number" id="planned7" placeholder="Planned $">
-              <input type="number" id="actual7" placeholder="Actual $">
-            </div>
-            <div class="cat-row">
-              <input type="text" id="catName8" placeholder="Category name">
-              <input type="number" id="planned8" placeholder="Planned $">
-              <input type="number" id="actual8" placeholder="Actual $">
-            </div>
-            <div class="cat-row">
-              <input type="text" id="catName9" placeholder="Category name">
-              <input type="number" id="planned9" placeholder="Planned $">
-              <input type="number" id="actual9" placeholder="Actual $">
-            </div>
-          </div>
+        <div class="grid-header">
+            <div>Source</div>
+            <div>Planned ($)</div>
+            <div>Actual ($)</div>
+        </div>
 
-          <button type="button" onclick="drawCategoriesChart()">Draw Categories Chart</button>
-          <div class="chart-legend">
+        <div class="income-grid">
+            <div class="income-row">
+                <input type="text" id="incomeName0" placeholder="e.g., Salary">
+                <input type="number" id="incomePlanned0" placeholder="0.00" step="0.01">
+                <input type="number" id="incomeActual0" placeholder="0.00" step="0.01">
+            </div>
+            <div class="income-row">
+                <input type="text" id="incomeName1" placeholder="e.g., Freelance">
+                <input type="number" id="incomePlanned1" placeholder="0.00" step="0.01">
+                <input type="number" id="incomeActual1" placeholder="0.00" step="0.01">
+            </div>
+            <div class="income-row">
+                <input type="text" id="incomeName2" placeholder="e.g., Investments">
+                <input type="number" id="incomePlanned2" placeholder="0.00" step="0.01">
+                <input type="number" id="incomeActual2" placeholder="0.00" step="0.01">
+            </div>
+            <div class="income-row">
+                <input type="text" id="incomeName3" placeholder="e.g., Other">
+                <input type="number" id="incomePlanned3" placeholder="0.00" step="0.01">
+                <input type="number" id="incomeActual3" placeholder="0.00" step="0.01">
+            </div>
+        </div>
+
+        <button onclick="calculateBudget()">Calculate Income</button>
+        <div id="incomeResult" class="result-box" style="display:none;"></div>
+    </section>
+
+    <section>
+        <h2>2. Expense Categories</h2>
+        <p class="info-text">Enter your different expense categories with planned and actual amounts.</p>
+
+        <div class="grid-header">
+            <div>Category</div>
+            <div>Planned ($)</div>
+            <div>Actual ($)</div>
+        </div>
+
+        <div class="expense-grid">
+            <div class="expense-row">
+                <input type="text" id="expenseName0" placeholder="e.g., Rent/Mortgage">
+                <input type="number" id="expensePlanned0" placeholder="0.00" step="0.01">
+                <input type="number" id="expenseActual0" placeholder="0.00" step="0.01">
+            </div>
+            <div class="expense-row">
+                <input type="text" id="expenseName1" placeholder="e.g., Groceries">
+                <input type="number" id="expensePlanned1" placeholder="0.00" step="0.01">
+                <input type="number" id="expenseActual1" placeholder="0.00" step="0.01">
+            </div>
+            <div class="expense-row">
+                <input type="text" id="expenseName2" placeholder="e.g., Transportation">
+                <input type="number" id="expensePlanned2" placeholder="0.00" step="0.01">
+                <input type="number" id="expenseActual2" placeholder="0.00" step="0.01">
+            </div>
+            <div class="expense-row">
+                <input type="text" id="expenseName3" placeholder="e.g., Utilities">
+                <input type="number" id="expensePlanned3" placeholder="0.00" step="0.01">
+                <input type="number" id="expenseActual3" placeholder="0.00" step="0.01">
+            </div>
+            <div class="expense-row">
+                <input type="text" id="expenseName4" placeholder="e.g., Entertainment">
+                <input type="number" id="expensePlanned4" placeholder="0.00" step="0.01">
+                <input type="number" id="expenseActual4" placeholder="0.00" step="0.01">
+            </div>
+            <div class="expense-row">
+                <input type="text" id="expenseName5" placeholder="e.g., Healthcare">
+                <input type="number" id="expensePlanned5" placeholder="0.00" step="0.01">
+                <input type="number" id="expenseActual5" placeholder="0.00" step="0.01">
+            </div>
+            <div class="expense-row">
+                <input type="text" id="expenseName6" placeholder="e.g., Insurance">
+                <input type="number" id="expensePlanned6" placeholder="0.00" step="0.01">
+                <input type="number" id="expenseActual6" placeholder="0.00" step="0.01">
+            </div>
+            <div class="expense-row">
+                <input type="text" id="expenseName7" placeholder="e.g., Subscriptions">
+                <input type="number" id="expensePlanned7" placeholder="0.00" step="0.01">
+                <input type="number" id="expenseActual7" placeholder="0.00" step="0.01">
+            </div>
+            <div class="expense-row">
+                <input type="text" id="expenseName8" placeholder="e.g., Savings">
+                <input type="number" id="expensePlanned8" placeholder="0.00" step="0.01">
+                <input type="number" id="expenseActual8" placeholder="0.00" step="0.01">
+            </div>
+            <div class="expense-row">
+                <input type="text" id="expenseName9" placeholder="e.g., Other">
+                <input type="number" id="expensePlanned9" placeholder="0.00" step="0.01">
+                <input type="number" id="expenseActual9" placeholder="0.00" step="0.01">
+            </div>
+        </div>
+
+        <button onclick="calculateBudget()">Calculate Expenses</button>
+        <div id="expenseResult" class="result-box" style="display:none;"></div>
+    </section>
+
+    <section>
+        <h2>3. Budget Visualization</h2>
+        <button onclick="generateChart()">Generate Budget Chart</button>
+        
+        <div class="chart-legend">
             <span class="legend-box planned"></span> Planned
             <span class="legend-box actual" style="margin-left: 12px;"></span> Actual
-          </div>
-        </section>
+        </div>
 
-        <!-- Canvas is placed after your report in the HTML; keep it at the bottom -->
-        <!-- If you already have a report div, place the canvas right after it -->
-        <!-- Example: after the #report section -->
-        <section>
-          <h2>Category Comparison Chart</h2>
-          <canvas id="chartCanvas"></canvas>
-        </section>
-
-        <button onclick="calculateNetIncome()">Calculate Net Income</button>
-        <div id="netIncomeResult"></div>
+        <div class="chart-section">
+            <canvas id="chartCanvas"></canvas>
+        </div>
     </section>
 
     <section>
-        <h2>2. Track Your Spending</h2>
-        <label for="spending">Enter recent spending ($):</label>
-        <input type="number" id="spending" placeholder="Example: 50 for groceries">
-        <button onclick="trackSpending()">Add Spending</button>
-        <div id="spendingList"></div>
-    </section>
-
-        <section>
-        <h2>3. Track Your Savings</h2>
-        <label for="savings">Enter recent saving ($):</label>
-        <input type="number" id="savings" placeholder="Example: 10 for new phone">
-        <button onclick="trackSavings()">Add Savings</button>
-        <div id="savingsList"></div>
-    </section>
-
-    <section>
-        <h2>4. Set Realistic Goals</h2>
+        <h2>4. Set Savings Goal</h2>
         <label for="goal">Enter your savings goal ($):</label>
-        <input type="number" id="goal" placeholder="Example: 300">
-        <button onclick="setGoal()">Set Savings Goal</button>
-        <div id="goalResult"></div>
+        <input type="number" id="goal" placeholder="Example: 5000" step="0.01">
+        <button onclick="setGoal()">Set Goal</button>
+        <div id="goalResult" class="result-box" style="display:none;"></div>
     </section>
 
     <section>
-        <h2>5. Make a Budget Plan</h2>
-        <button onclick="makePlan()">Create Budget Plan</button>
-        <div id="planResult"></div>
-    </section>
-
-    <section class="methods">
-        <h2>6. Pick a Budgeting Method</h2>
+        <h2>5. Pick a Budgeting Method</h2>
+        <label for="method">Choose a budgeting method:</label>
         <select id="method">
-            <option value="">-- Choose a method --</option>
+            <option value="">-- Select a method --</option>
             <option value="50/30/20">50/30/20 Rule</option>
             <option value="Envelope">Envelope Method</option>
             <option value="Zero-Based">Zero-Based Budget</option>
         </select>
         <button onclick="showMethod()">Show Method Info</button>
-        <div id="methodInfo"></div>
+        <div id="methodInfo" class="result-box" style="display:none;"></div>
     </section>
 
     <section>
-        <h2>7. Adjust or Update Your Budget</h2>
-        <button onclick="updateBudget()">Update Budget</button>
-        <button onclick="resetBudget()">Reset All</button>
-        <div id="result"></div>
+        <h2>6. Budget Controls</h2>
+        <div class="button-group">
+            <button onclick="calculateBudget()">Update Budget</button>
+            <button onclick="resetBudget()" style="background-color: #dc3545;">Reset All</button>
+        </div>
     </section>
 
-
     <section>
-        <h2>📊 Your Budget Report</h2>
+        <h2> Your Budget Report</h2>
         <div id="report">No data yet. Start by entering your income and expenses!</div>
     </section>
 </body>
