@@ -1,6 +1,106 @@
+let totalIncomePlanned = 0;
+let totalIncomeActual = 0;
+let totalExpensePlanned = 0;
+let totalExpenseActual = 0;
+let netIncomePlanned = 0;
+let netIncomeActual = 0;
+let goal = 0;
+let methodChosen = "";
+
+// Function to calculate the budget
+function calculateBudget() {
+    // Reset totals to zero
+    totalIncomePlanned = 0;
+    totalIncomeActual = 0;
+    totalExpensePlanned = 0;
+    totalExpenseActual = 0;
+
+    // Add up all income
+    for (let i = 0; i < 4; i++) {
+        let planned = document.getElementById("incomePlanned" + i).value;
+        let actual = document.getElementById("incomeActual" + i).value;
+        
+        if (planned !== "") {
+            totalIncomePlanned = totalIncomePlanned + parseFloat(planned);
+        }
+        if (actual !== "") {
+            totalIncomeActual = totalIncomeActual + parseFloat(actual);
+        }
+    }
+
+    // Add up all expenses
+    for (let i = 0; i < 10; i++) {
+        let planned = document.getElementById("expensePlanned" + i).value;
+        let actual = document.getElementById("expenseActual" + i).value;
+        
+        if (planned !== "") {
+            totalExpensePlanned = totalExpensePlanned + parseFloat(planned);
+        }
+        if (actual !== "") {
+            totalExpenseActual = totalExpenseActual + parseFloat(actual);
+        }
+    }
+
+    // Calculate net income
+    netIncomePlanned = totalIncomePlanned - totalExpensePlanned;
+    netIncomeActual = totalIncomeActual - totalExpenseActual;
+
+    // Show results
+    if (totalIncomePlanned > 0 || totalIncomeActual > 0) {
+        document.getElementById("incomeResult").innerText = "Total Income:\nPlanned: $" + totalIncomePlanned.toFixed(2) + "\nActual: $" + totalIncomeActual.toFixed(2);
+        document.getElementById("incomeResult").style.display = "block";
+    }
+
+    if (totalExpensePlanned > 0 || totalExpenseActual > 0) {
+        document.getElementById("expenseResult").innerText = "Total Expenses:\nPlanned: $" + totalExpensePlanned.toFixed(2) + "\nActual: $" + totalExpenseActual.toFixed(2);
+        document.getElementById("expenseResult").style.display = "block";
+    }
+
+    updateReport();
+    generateChart();
+}
+
+// Function to update the budget report
+function updateReport() {
+    let report = "Budget Summary\n";
+    report = report + "--------------------\n";
+    report = report + "INCOME:\n";
+    report = report + "  Planned: $" + totalIncomePlanned.toFixed(2) + "\n";
+    report = report + "  Actual:  $" + totalIncomeActual.toFixed(2) + "\n\n";
+    report = report + "EXPENSES:\n";
+    report = report + "  Planned: $" + totalExpensePlanned.toFixed(2) + "\n";
+    report = report + "  Actual:  $" + totalExpenseActual.toFixed(2) + "\n\n";
+    report = report + "NET INCOME:\n";
+    report = report + "  Planned: $" + netIncomePlanned.toFixed(2) + "\n";
+    report = report + "  Actual:  $" + netIncomeActual.toFixed(2) + "\n\n";
+    report = report + "SAVINGS:\n";
+    report = report + "  Current: $" + netIncomeActual.toFixed(2) + "\n";
+    report = report + "  Goal:    $" + goal.toFixed(2) + "\n\n";
+    report = report + "Method: " + methodChosen + "\n";
+    report = report + "--------------------";
+
+    document.getElementById("report").innerText = report;
+}
+
+// Function to set savings goal
+function setGoal() {
+    let goalInput = document.getElementById("goal").value;
+    
+    if (goalInput !== "") {
+        goal = parseFloat(goalInput);
+        document.getElementById("goalResult").innerText = "Your savings goal is $" + goal.toFixed(2);
+        document.getElementById("goalResult").style.display = "block";
+        updateReport();
+    } else {
+        document.getElementById("goalResult").innerText = "Please enter a valid goal amount.";
+        document.getElementById("goalResult").style.display = "block";
+    }
+}
+
+// Function to show budgeting method info
 function showMethod() {
-    var method = document.getElementById("method").value;
-    var info = "";
+    let method = document.getElementById("method").value;
+    let info = "";
 
     if (method === "50/30/20") {
         info = "The 50/30/20 Rule:\n50% for Needs (rent, utilities, groceries)\n30% for Wants (entertainment, dining out)\n20% for Savings and debt repayment";
@@ -23,7 +123,7 @@ function showMethod() {
 
 // Function to reset everything
 function resetBudget() {
-    var confirmReset = confirm("Are you sure you want to reset all data?");
+    let confirmReset = confirm("Are you sure you want to reset all data?");
     
     if (confirmReset) {
         // Clear all variables
@@ -37,8 +137,8 @@ function resetBudget() {
         methodChosen = "";
         
         // Clear all inputs
-        var inputs = document.getElementsByTagName("input");
-        for (var i = 0; i < inputs.length; i++) {
+        let inputs = document.getElementsByTagName("input");
+        for (let i = 0; i < inputs.length; i++) {
             inputs[i].value = "";
         }
         
@@ -55,16 +155,16 @@ function resetBudget() {
         document.getElementById("report").innerText = "No data yet. Start by entering your income and expenses!";
         
         // Clear chart
-        var canvas = document.getElementById("chartCanvas");
-        var ctx = canvas.getContext("2d");
+        let canvas = document.getElementById("chartCanvas");
+        let ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 }
 
 // Function to draw the chart
 function generateChart() {
-    var canvas = document.getElementById("chartCanvas");
-    var ctx = canvas.getContext("2d");
+    let canvas = document.getElementById("chartCanvas");
+    let ctx = canvas.getContext("2d");
     
     // Set canvas size
     canvas.width = canvas.offsetWidth;
@@ -74,15 +174,15 @@ function generateChart() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Collect all data for chart
-    var labels = [];
-    var plannedValues = [];
-    var actualValues = [];
+    let labels = [];
+    let plannedValues = [];
+    let actualValues = [];
 
     // Get income data
-    for (var i = 0; i < 4; i++) {
-        var name = document.getElementById("incomeName" + i).value;
-        var planned = document.getElementById("incomePlanned" + i).value;
-        var actual = document.getElementById("incomeActual" + i).value;
+    for (let i = 0; i < 4; i++) {
+        let name = document.getElementById("incomeName" + i).value;
+        let planned = document.getElementById("incomePlanned" + i).value;
+        let actual = document.getElementById("incomeActual" + i).value;
 
         if (name !== "" || planned !== "" || actual !== "") {
             if (name === "") {
@@ -95,10 +195,10 @@ function generateChart() {
     }
 
     // Get expense data
-    for (var i = 0; i < 10; i++) {
-        var name = document.getElementById("expenseName" + i).value;
-        var planned = document.getElementById("expensePlanned" + i).value;
-        var actual = document.getElementById("expenseActual" + i).value;
+    for (let i = 0; i < 10; i++) {
+        let name = document.getElementById("expenseName" + i).value;
+        let planned = document.getElementById("expensePlanned" + i).value;
+        let actual = document.getElementById("expenseActual" + i).value;
 
         if (name !== "" || planned !== "" || actual !== "") {
             if (name === "") {
@@ -120,8 +220,8 @@ function generateChart() {
     }
 
     // Find max value for scaling
-    var maxValue = 0;
-    for (var i = 0; i < plannedValues.length; i++) {
+    let maxValue = 0;
+    for (let i = 0; i < plannedValues.length; i++) {
         if (plannedValues[i] > maxValue) {
             maxValue = plannedValues[i];
         }
@@ -131,22 +231,22 @@ function generateChart() {
     }
 
     // Chart dimensions
-    var padding = 50;
-    var chartWidth = canvas.width - padding * 2;
-    var chartHeight = canvas.height - 140;
-    var barWidth = chartWidth / labels.length / 3;
+    let padding = 50;
+    let chartWidth = canvas.width - padding * 2;
+    let chartHeight = canvas.height - 140;
+    let barWidth = chartWidth / labels.length / 3;
 
     // Draw bars
-    for (var i = 0; i < labels.length; i++) {
-        var x = padding + (i * chartWidth / labels.length);
+    for (let i = 0; i < labels.length; i++) {
+        let x = padding + (i * chartWidth / labels.length);
         
         // Planned bar (blue)
-        var plannedHeight = (plannedValues[i] / maxValue) * chartHeight;
+        let plannedHeight = (plannedValues[i] / maxValue) * chartHeight;
         ctx.fillStyle = "#2f5cb5";
         ctx.fillRect(x, 40 + chartHeight - plannedHeight, barWidth, plannedHeight);
         
         // Actual bar (green)
-        var actualHeight = (actualValues[i] / maxValue) * chartHeight;
+        let actualHeight = (actualValues[i] / maxValue) * chartHeight;
         ctx.fillStyle = "#2aa84f";
         ctx.fillRect(x + barWidth + 5, 40 + chartHeight - actualHeight, barWidth, actualHeight);
         
@@ -166,3 +266,4 @@ function generateChart() {
     ctx.font = "bold 14px Arial";
     ctx.textAlign = "center";
     ctx.fillText("Income & Expenses: Planned vs Actual", canvas.width / 2, 20);
+}
